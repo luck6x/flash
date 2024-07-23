@@ -1,0 +1,28 @@
+средний уровень
+
+условие:
+найти количество троек чисел, где минимум один палиндром, который больше наименьшего числа, делящегося на 13 без остатка, и ровно одно число является четырехзначным, и наименьшую сумму чисел такой тройки
+
+ответ: 634 -133226
+
+f=open('17.txt')
+def pal(x):  #создаем доп функцию, которая проверяет является ли число палиндромом
+    x=str(abs(x))
+    if len(x) == 1:
+        return False
+    for i in range(len(x)//2):
+        if x[i]!=x[-(i+1)]:
+            return False
+    return True
+l=list(map(int,f)) #создаем список, в котороый переносим числа из документа 
+k=0 #количество троек
+sum=100**100 #наименьшая сумма чисел троек
+min_del=100**100 #минимальное число, которое делится на 13 без остатка 
+for i in l:
+    if abs(i)%13==0:
+        min_del=min(min_del,i) #находим минимальное число, которое делится на 13 без остатка 
+for i in range(len(l)-2):
+    if ((pal(l[i])==True and l[i]>min_del) or (pal(l[i+1])==True and l[i+1]>min_del) or (pal(l[i+2])==True and l[i+2]>min_del)) and ((len(str(abs(l[i])))==4 and len(str(abs(l[i+1])))!=4 and len(str(abs(l[i+2])))!=4) or (len(str(abs(l[i])))!=4 and len(str(abs(l[i+1])))==4 and len(str(abs(l[i+2])))!=4) or (len(str(abs(l[i])))!=4 and len(str(abs(l[i+1])))!=4 and len(str(abs(l[i+2])))==4)): #проверяем подходит ли тройка условию
+        k+=1
+        sum=min(sum,l[i]+l[i+1]+l[i+2])
+print(k,sum)
